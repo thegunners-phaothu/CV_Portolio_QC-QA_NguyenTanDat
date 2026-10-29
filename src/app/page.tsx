@@ -7,6 +7,7 @@ import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 import { cvData } from "@/data/cvData";
 import { absoluteUrl } from "@/lib/site";
+import { withBasePath } from "@/lib/basePath";
 
 function buildPersonJsonLd(): string {
   const { profile, skills, education } = cvData;
@@ -40,12 +41,20 @@ function buildPersonJsonLd(): string {
 }
 
 export default function HomePage() {
+  const cvPathPrefixed = withBasePath(cvData.cvPath);
+  const profileWithBasePath = {
+    ...cvData.profile,
+    photo: cvData.profile.photo
+      ? { ...cvData.profile.photo, src: withBasePath(cvData.profile.photo.src) }
+      : undefined,
+  };
+
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: buildPersonJsonLd() }} />
-      <Navbar cvPath={cvData.cvPath} name={cvData.profile.name} />
+      <Navbar cvPath={cvPathPrefixed} name={cvData.profile.name} />
       <main id="main">
-        <HeroSection profile={cvData.profile} cvPath={cvData.cvPath} />
+        <HeroSection profile={profileWithBasePath} cvPath={cvPathPrefixed} />
         <SkillsSection skills={cvData.skills} />
         <ExperienceTimeline
           experience={cvData.experience}
