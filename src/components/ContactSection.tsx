@@ -37,40 +37,57 @@ export default function ContactSection({ profile }: { profile: Profile }) {
   ];
 
   return (
-          <section id="contact" aria-labelledby="contact-title" className="section bg-[#C0C0C0]">
+    <section id="contact" aria-labelledby="contact-title" className="section relative">
       <div className="container-page">
-        <div className="card relative overflow-hidden p-8 sm:p-12">
-          <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-yellow-500/20 blur-3xl" aria-hidden="true" />
-          <p className="eyebrow">Contact</p>
+        <div className="card relative overflow-hidden p-8 sm:p-12 border-teal-500/20 bg-[#0b1219]/90 shadow-2xl">
+          <div
+            className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-teal-500/15 blur-3xl"
+            aria-hidden="true"
+          />
+          <p className="eyebrow">
+            <span className="text-teal-400 font-mono">04 //</span>
+            Reach Out
+          </p>
           <h2 id="contact-title" className="section-title">
-            Let&apos;s work together
+            Let&apos;s work together.
           </h2>
-          <p className="mt-4 max-w-xl text-zinc-600 dark:text-zinc-300">
+          <p className="mt-4 max-w-xl text-slate-300">
             Open to QA/QC opportunities. Reach out by email, phone, or LinkedIn.
           </p>
           <address className="mt-10 grid gap-4 not-italic sm:grid-cols-2">
             {items.map((it) => {
               const content = (
                 <>
-                  <span className="grid h-11 w-11 flex-none place-items-center rounded-xl bg-gradient-to-br from-amber-500/15 to-slate-200/15 text-amber-600 dark:text-amber-300">
-                    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" aria-hidden="true">
+                  <span className="grid h-11 w-11 flex-none place-items-center rounded-xl border border-teal-500/30 bg-teal-500/10 text-teal-400">
+                    <svg
+                      className="h-5 w-5"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinejoin="round"
+                      aria-hidden="true"
+                    >
                       <path d={it.icon} />
                     </svg>
                   </span>
                   <span className="min-w-0">
-                    <span className="block text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400">{it.label}</span>
-                    <span className="block break-words font-medium text-zinc-900 dark:text-white">{it.value}</span>
+                    <span className="block font-mono text-[11px] uppercase tracking-wider text-teal-400/80">
+                      {it.label}
+                    </span>
+                    <span className="block break-words font-medium text-white">{it.value}</span>
                   </span>
                 </>
               );
-              const cls = "flex items-center gap-4 rounded-xl border border-zinc-200 p-4 transition dark:border-white/10";
+              const cls =
+                "flex items-center gap-4 rounded-xl border border-teal-500/20 bg-[#06090e]/60 p-4 transition-all hover:border-teal-400/60 hover:shadow-[0_0_20px_rgba(45,212,191,0.12)]";
               const external = it.href?.startsWith("http");
               return it.href ? (
                 <a
                   key={it.id}
                   id={it.id}
                   href={it.href}
-                  className={`${cls} hover:border-gold-500/60`}
+                  className={cls}
                   {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                 >
                   {content}

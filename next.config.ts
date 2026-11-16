@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import path from "path";
 
 const isProd = process.env.NODE_ENV === "production";
 const repoName = "CV_Portolio_QC-QA_NguyenTanDat";
@@ -12,6 +13,8 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
+  // Fix: suppress workspace-root lockfile warning
+  outputFileTracingRoot: path.join(__dirname, "./"),
 };
 
 export default nextConfig;

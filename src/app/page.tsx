@@ -3,6 +3,7 @@ import HeroSection from "@/components/HeroSection";
 import SkillsSection from "@/components/SkillsSection";
 import ExperienceTimeline from "@/components/ExperienceTimeline";
 import ProjectsSection from "@/components/ProjectsSection";
+import UnderPressureSection from "@/components/UnderPressureSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 import { cvData } from "@/data/cvData";
@@ -66,6 +67,7 @@ export default function HomePage() {
           certifications={cvData.certifications}
         />
         <ProjectsSection projects={cvData.projects} />
+        <UnderPressureSection />
         <ContactSection profile={cvData.profile} />
       </main>
       <Footer profile={cvData.profile} />

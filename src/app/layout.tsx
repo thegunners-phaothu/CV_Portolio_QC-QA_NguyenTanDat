@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import TechBackground from "@/components/TechBackground";
 import { cvData } from "@/data/cvData";
 import { getSiteUrl } from "@/lib/site";
 
@@ -38,8 +39,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: dark)", color: "#18181b" },
-    { media: "(prefers-color-scheme: light)", color: "#f8fafc" },
+    { media: "(prefers-color-scheme: dark)", color: "#06090e" },
+    { media: "(prefers-color-scheme: light)", color: "#06090e" },
   ],
 };
 
@@ -48,14 +49,15 @@ const themeScript = `(function(){try{var t=localStorage.getItem('theme');if(t!==
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={inter.variable} suppressHydrationWarning>
+    <html lang="en" className={`${inter.variable} dark`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
-              <body className="font-sans bg-[#C0C0C0] text-slate-900 min-h-screen">
+      <body className="font-sans bg-[#06090e] text-slate-100 min-h-screen relative selection:bg-teal-500/30 selection:text-teal-200 antialiased">
+        <TechBackground />
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-gold-500 focus:px-4 focus:py-2 focus:text-navy-950"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-teal-400 focus:px-4 focus:py-2 focus:text-slate-950 font-semibold"
         >
           Skip to content
         </a>

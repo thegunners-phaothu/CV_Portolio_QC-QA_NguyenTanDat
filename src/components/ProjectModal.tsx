@@ -48,14 +48,18 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
   }, [onClose]);
 
   const titleId = `modal-title-${project.id}`;
+  const isTechEra = project.company.toLowerCase().includes("techera");
+  // Both TechEra projects show "01/2025 – Present", DigiTech shows specified duration
+  const displayDuration = isTechEra ? "01/2025 – Present" : project.duration;
+
   const hasVerifiedDetails =
-    (project.techStack?.length ?? 0) > 0 ||
-    (project.responsibilities?.length ?? 0) > 0 ||
-    (project.achievements?.length ?? 0) > 0;
+    (project.technologies?.length ?? 0) > 0 ||
+    (project.keyModules?.length ?? 0) > 0 ||
+    (project.responsibilities?.length ?? 0) > 0;
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-end justify-center bg-navy-950/70 p-0 backdrop-blur-sm sm:items-center sm:p-6"
+      className="fixed inset-0 z-50 flex items-end justify-center bg-[#06090e]/80 p-0 backdrop-blur-md sm:items-center sm:p-6"
       onClick={onClose}
     >
       <div
@@ -64,7 +68,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
         aria-modal="true"
         aria-labelledby={titleId}
         onClick={(e) => e.stopPropagation()}
-        className="relative max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-t-2xl border border-zinc-200 bg-white p-6 shadow-2xl sm:rounded-2xl sm:p-8 dark:border-white/10 dark:bg-navy-800"
+        className="relative max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-t-2xl border border-teal-500/30 bg-[#0b1219] p-6 shadow-[0_0_50px_rgba(0,0,0,0.8)] sm:rounded-2xl sm:p-8 text-slate-200"
       >
         <button
           ref={closeRef}
@@ -72,39 +76,65 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
           type="button"
           onClick={onClose}
           aria-label="Close project details"
-          className="absolute right-4 top-4 grid h-9 w-9 place-items-center rounded-lg text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-white/10 dark:hover:text-white"
+          className="absolute right-4 top-4 grid h-9 w-9 place-items-center rounded-lg border border-teal-500/20 text-slate-400 hover:border-teal-400 hover:bg-white/5 hover:text-white transition-all"
         >
           <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
             <path d="M6 6l12 12M18 6L6 18" />
           </svg>
         </button>
 
-        <span className="chip">{project.category}</span>
-        <h2 id={titleId} className="mt-4 pr-10 text-2xl font-bold text-zinc-900 dark:text-white">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="chip">{project.category}</span>
+          <span className="font-mono text-xs text-teal-400">{project.company}</span>
+          {project.client && (
+            <span className="rounded border border-teal-500/20 bg-teal-500/5 px-2 py-0.5 font-mono text-[11px] text-slate-300">
+              Client: {project.client}
+            </span>
+          )}
+        </div>
+
+        <p className="mt-2 font-mono text-xs text-slate-400">
+          Duration: <span className="text-teal-300">{displayDuration}</span>
+        </p>
+
+        <h2 id={titleId} className="mt-3 pr-10 text-2xl font-bold text-white tracking-tight">
           {project.title}
         </h2>
-        {project.company && <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">{project.company}</p>}
-        <p className="mt-4 leading-relaxed text-zinc-600 dark:text-zinc-300">{project.summary}</p>
 
-        {project.techStack && project.techStack.length > 0 && (
-          <DetailList title="Technology stack" items={project.techStack} />
+        <p className="mt-4 leading-relaxed text-slate-300">
+          {project.description || project.summary}
+        </p>
+
+        {project.keyModules && project.keyModules.length > 0 && (
+          <DetailList title="Key Modules" items={project.keyModules} />
         )}
+
+        {project.technologies && project.technologies.length > 0 && (
+          <div className="mt-6">
+            <h3 className="font-mono text-xs font-semibold uppercase tracking-wider text-teal-400 mb-2">Technologies</h3>
+            <div className="flex flex-wrap gap-2">
+              {project.technologies.map((t) => (
+                <span key={t} className="rounded-lg border border-teal-500/25 bg-teal-500/10 px-3 py-1 font-mono text-xs text-teal-300">
+                  {t}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+
         {project.responsibilities && project.responsibilities.length > 0 && (
-          <DetailList title="QA responsibilities" items={project.responsibilities} />
-        )}
-        {project.achievements && project.achievements.length > 0 && (
-          <DetailList title="Achievements" items={project.achievements} />
+          <DetailList title="QA Responsibilities" items={project.responsibilities} />
         )}
 
         {!hasVerifiedDetails && (
-          <div className="mt-6 rounded-xl border border-dashed border-zinc-300 p-4 dark:border-white/15">
-            <p className="text-sm font-medium text-zinc-700 dark:text-zinc-200">Details available on request.</p>
-            <p className="mt-3 text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+          <div className="mt-6 rounded-xl border border-dashed border-teal-500/30 p-4 bg-teal-500/5">
+            <p className="text-sm font-medium text-slate-200">Details available on request.</p>
+            <p className="mt-3 font-mono text-[11px] uppercase tracking-wider text-teal-400">
               General QA capabilities (not project-specific)
             </p>
             <ul className="mt-2 flex flex-wrap gap-2">
               {genericQaCapabilities.map((c) => (
-                <li key={c} className="rounded-full bg-zinc-100 px-3 py-1 text-xs text-zinc-600 dark:bg-white/5 dark:text-zinc-300">
+                <li key={c} className="rounded-full border border-teal-500/20 bg-teal-500/10 px-3 py-1 font-mono text-xs text-teal-300">
                   {c}
                 </li>
               ))}
@@ -123,8 +153,8 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
 function DetailList({ title, items }: { title: string; items: string[] }) {
   return (
     <div className="mt-6">
-      <h3 className="text-sm font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">{title}</h3>
-      <ul className="mt-2 list-disc space-y-1 pl-5 text-zinc-700 dark:text-zinc-300">
+      <h3 className="font-mono text-xs font-semibold uppercase tracking-wider text-teal-400">{title}</h3>
+      <ul className="mt-2 list-disc space-y-1 pl-5 text-sm leading-relaxed text-slate-300">
         {items.map((i) => (
           <li key={i}>{i}</li>
         ))}

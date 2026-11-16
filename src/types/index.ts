@@ -1,7 +1,8 @@
 export type ProjectCategory =
   | "Ticketing & DMS"
-  | "E-Commerce & Logistics"
-  | "Mobile & PWA";
+  | "Ticketing & DMS / Security"
+  | "Mobile & PWA"
+  | "E-Commerce & Logistics";
 
 export type ProjectFilter = "All" | ProjectCategory;
 
@@ -63,14 +64,19 @@ export interface Education {
 export interface Project {
   id: string;
   title: string;
+  company: string;
+  client?: string;
+  duration: string;
   category: ProjectCategory;
-  summary: string;
-  company?: string;
-  /** True when the category was inferred rather than verified. */
-  categoryInferred?: boolean;
+  description: string;
+  keyModules: string[];
+  technologies: string[];
+  /** Backward-compatibility fields for existing components */
+  summary?: string;
   techStack?: string[];
   responsibilities?: string[];
   achievements?: string[];
+  categoryInferred?: boolean;
 }
 
 export interface CvData {
